@@ -1,6 +1,66 @@
 [
     {
+        "store": "hottopic",
+        "url": "https://www.hottopic.com/product/funko-marvel-x-men-pop-chrome-x-force-colossus-vinyl-bobble-head-2018-l.a.-comic-con-exclusive/11569059.html"
+    },
+    {
+        "store": "hottopic",
+        "url": "https://www.hottopic.com/product/funko-marvel-pop-doctor-strange-ghost-rider-vinyl-bobble-head-2018-l.a.-comic-con-exclusive/11569065.html"
+    },
+    {
+        "store": "boxlunch",
+        "url": "https://www.boxlunch.com/product/funko-pop-beetlejuice-lydia-deetz-vinyl-figure---boxlunch-exclusive/11528095.html"
+    },
+    {
+        "store": "boxlunch",
+        "url": "https://www.boxlunch.com/product/funko-pop-dragon-ball-z-goten-and-trunks-vinyl-figure-2-pack---boxlunch-exclusive/11310215.html"
+    },
+    {
+        "store": "walmart",
+        "url": "https://www.walmart.com/ip/Funko-POP-Games-Fortnite-S1-Crackshot-Walmart-Exclusive/343459071"
+    },
+    {
+        "store": "walmart",
+        "url": "https://www.walmart.com/ip/Funko-POP-Marvel-Infinity-War-Thanos-Green-Chrome-Walmart-Exclusive/544187537"
+    },
+    {
+        "store": "barnesandnoble",
+        "url": "https://www.barnesandnoble.com/w/toys-games-pop-games-marvel-spider-mans1-unmasked-spider-man/32456061"
+    },
+    {
+        "store": "barnesandnoble",
+        "url": "https://www.barnesandnoble.com/w/toys-games-pop-harry-potter-nearly-headless-nick/32738822"
+    },
+        {
+        "store": "gamestop",
+        "url": "https://www.gamestop.com/collectibles/toys/pop-marvel-holiday-groot/163135"
+    },
+    {
+        "store": "gamestop",
+        "url": "https://www.gamestop.com/toys/pop-animation-rick-morty-doofus-rick-only-at-gamestop/132327"
+    },
+        {
+        "store": "blizzard",
+        "url": "https://gear.blizzard.com/us/funko-pop-vinyl-mercy"
+    },
+    {
+        "store": "blizzard",
+        "url": "https://gear.blizzard.com/us/funko-pop-vinyl-ashe"
+    },
+        {
+        "store": "target",
+        "url": "https://www.target.com/p/funko-pop-television-saturday-night-live-ndash-target-lady-exclusive/-/A-53847869"
+    },
+    {
         "store": "target",
         "url": "https://www.target.com/p/funko-pop-pokemon-pikachu/-/A-53636975"
+    },
+        {
+        "store": "geminicollectibles",
+        "url": "http://www.geminicollectibles.net/funko-pop-star-wars-mudtrooper-funko-shop-exclusive-vinyl-figure-clearance/"
+    },
+    {
+        "store": "geminicollectibles",
+        "url": "http://www.geminicollectibles.net/funko-pop-television-masters-of-the-universe-metallic-battle-armor-skeletor-gemini-collectibles-exclusive-vinyl-figure-restrictions-apply/"
     }
 ]

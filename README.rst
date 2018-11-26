@@ -5,27 +5,15 @@ Funko-Pop-Watch
 Description
 ----------
 
-This is a script to scrape funko pop websites to check for item availability. It sends notification via the app "Telegram". **NOTE: will only work on fixes as I have time. This is just a small script to get a Pop I need.** 
+ **NOTE: will only work on fixes as I have time. This is just a small script to get a Pop I need.** This is a script to scrape funko pop websites to check for item availability. It sends notification via the app "Telegram". 
 
 Running the utility from command line
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
 .. code-block:: console
 
-	.\Funko_Pop_Watcher\dist\pop_bot.exe
-	
-	or
-	
 	python pop_bot.py
-	
-Building an executable from file source
-~~~~~~~~~~~~~~~~~~~~~~~~~
 
- For this process you will need to install pyinstaller for python.
-
-.. code-block:: console
-
-	pyinstaller --onefile pop_bot.py
 
 Requirements
 ----------
@@ -61,7 +49,15 @@ History
 ----------
 
   * 11/04/2018: Initial Commit
-  * 11/04/2018: Added support for the following stores: Hot Topic, Box Lunch, Walmart, Barnes and Noble, GameStop, Blizzard, Gemini Collectibles, Target
+  * 11/04/2018: Added support for the following stores
+	- Hot Topic
+	- Box Lunch
+	- Walmart
+	- Barnes and Noble
+	- GameStop
+	- Blizzard
+	- Gemini Collectibles
+	- Target
   * 11/08/2018: Added readme, requirements and made code readable
 
 License
