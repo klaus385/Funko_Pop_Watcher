@@ -55,13 +55,14 @@ class storeStock(object):
 
         if get_distro() == "Raspbian GNU/Linux":
             driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION, chrome_options=chrome_options)
+            driver.wait = WebDriverWait(driver, 3)
+            _LOG.info('Initialized chrome driver.')
+            return driver
         else:
             driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options)
-
-        driver.wait = WebDriverWait(driver, 3)
-
-        _LOG.info('Initialized chrome driver.')
-        return driver
+            driver.wait = WebDriverWait(driver, 3)
+            _LOG.info('Initialized chrome driver.')
+            return driver
 
     def check_funko(self, site, url):
         status = False
