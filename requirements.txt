@@ -1,0 +1,3 @@
+beautifulsoup4
+pyinstaller
+python-telegram-bot

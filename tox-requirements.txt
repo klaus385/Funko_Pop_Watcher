@@ -1,0 +1,8 @@
+-r requirements.txt
+coverage>=4.1
+pytest-cov==2.2.1
+pytest==3.2.1
+pytest-xdist
+nose-exclude
+nose-testconfig
+flake8==2.5.4
