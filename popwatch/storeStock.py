@@ -5,6 +5,7 @@ import hashlib
 import logging
 import requests
 import portalocker
+import distro
 
 from popwatch import config
 from bs4 import BeautifulSoup
@@ -18,6 +19,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
+from operator import itemgetter
 
 _LOG = logging.getLogger(__name__)
 
@@ -31,6 +33,11 @@ HTML_OBJ = {
     "geminicollectibles": "add-to-cart",
     "target": "h-text-orangeDark"}
 
+def get_distro():
+    # Checking Distrobution before passing in connection string
+    distrobution = distro.linux_distribution()
+    distroName = itemgetter(0)(distrobution)
+    return distroName
 
 class storeStock(object):
 
@@ -46,10 +53,13 @@ class storeStock(object):
         chrome_options.add_argument("--credentials_enable_service=false")
         chrome_options.add_argument("--profile.password_manager_enabled=false")
 
-        driver = webdriver.Chrome(ChromeDriverManager().install(),
+        if get_distro() == "Raspbian GNU/Linux":
+            driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION,
                                   chrome_options=chrome_options)
-        # driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION,
-        #                           chrome_options=chrome_options)
+        else:
+            driver = webdriver.Chrome(ChromeDriverManager().install(),
+                                  chrome_options=chrome_options)
+
         driver.wait = WebDriverWait(driver, 3)
 
         _LOG.info('Initialized chrome driver.')
