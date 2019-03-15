@@ -4,8 +4,16 @@ import yaml
 import yaml.error
 import logging
 import logging.config
+import distro
+from operator import itemgetter
 
 _LOG = logging.getLogger(__name__)
+
+def get_distro():
+    # Checking Distrobution before passing in connection string
+    distrobution = distro.linux_distribution()
+    distroName = itemgetter(0)(distrobution)
+    return distroName
 
 global GLOBAL_CONFIG
 global CONFIG_FILE
@@ -77,5 +85,9 @@ TELEGRAM_CHAT_ID = GLOBAL_CONFIG.get('TELEGRAM_CHAT_ID', os.environ['TELEGRAM_CH
 FUNKO_POP_LIST = GLOBAL_CONFIG.get('FUNKO_POP_LIST')
 
 # Chrome Driver Settings
-#DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', './chromedriver')
-DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', '/usr/lib/chromium-browser/chromedriver')
+if get_distro() == "Raspbian GNU/Linux":
+    DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', './chromedriver-raspi')
+elif get_distro() == "Darwin":
+    DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', './chromedriver-mac')
+elif get_distro() == "Windows":
+    DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', './chromedriver.exe')
