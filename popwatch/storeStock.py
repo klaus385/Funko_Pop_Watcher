@@ -54,11 +54,9 @@ class storeStock(object):
         chrome_options.add_argument("--profile.password_manager_enabled=false")
 
         if get_distro() == "Raspbian GNU/Linux":
-            driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION,
-                                  chrome_options=chrome_options)
+            driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION, chrome_options=chrome_options)
         else:
-            driver = webdriver.Chrome(ChromeDriverManager().install(),
-                                  chrome_options=chrome_options)
+            driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options)
 
         driver.wait = WebDriverWait(driver, 3)
 
