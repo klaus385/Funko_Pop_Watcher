@@ -98,9 +98,16 @@ class storeStock(object):
             # When set prevents lookup until TIMEOUT Expires
             self.TIMEOUT[url_md5] = datetime.today().date()
             _LOG.info('Timeout Set: {0}'.format(url_md5))
-            # Adds Item to the Cart
-            atcBtn = WebDriverWait(self.driver, 20).until(
-            EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]'))).click();
+            if site in ['hottopic', 'boxlunch']:
+                # Adds Item to the Cart
+                self.driver.get(url)
+                self.driver.refresh()
+                atcBtn = WebDriverWait(self.driver, 20).until(
+                EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]'))).click();
+            # elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles']:
+            #     print("Still Work In Progress - Site(s): Walmart, B&N, Gamestop, Blizzard, Gemini Collectibles")
+            # elif site in ['target']:
+            #     print("Still Work In Progress - Site: Target")
 
     def set_cookies(self):
         self.driver.get('https://www.hottopic.com')
