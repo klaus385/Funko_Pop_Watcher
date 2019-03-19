@@ -98,6 +98,7 @@ class storeStock(object):
             # When set prevents lookup until TIMEOUT Expires
             self.TIMEOUT[url_md5] = datetime.today().date()
             _LOG.info('Timeout Set: {0}'.format(url_md5))
+            # Adds Item to the Cart
             atcBtn = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]'))).click();
 
