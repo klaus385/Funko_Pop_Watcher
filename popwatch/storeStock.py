@@ -9,7 +9,7 @@ import distro
 
 from popwatch import config
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -41,6 +41,18 @@ def get_distro():
 
 class storeStock(object):
 
+    def cart_links(self, site):
+        if site in ['hottopic', 'boxlunch']:
+            if site in ['hottopic']:
+                cartLink = "https://www.hottopic.com/cart"
+                return cartLink
+            elif site in ['boxlunch']:
+                cartLink = "https://www.boxlunch.com/cart"
+                return cartLink
+        else:
+            print("Not Hottopic or BoxLunch")
+            print("Implement other sites later time")
+
     def __init__(self, UPDATER):
         self.TIMEOUT = {}
         self.UPDATER = UPDATER
@@ -49,7 +61,7 @@ class storeStock(object):
 
     def init_driver(self):
         chrome_options = Options()
-        chrome_options.add_argument("--headless")
+        #chrome_options.add_argument("--headless")
         chrome_options.add_argument("--credentials_enable_service=false")
         chrome_options.add_argument("--profile.password_manager_enabled=false")
 
@@ -76,14 +88,18 @@ class storeStock(object):
         elif site in ['target']:
             status = self.out_of_stock(site, url)
 
+        # Report from Bot When in Stock
         if status:
             msg = site + " - In Stock: " + ":\n" + url
             self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID,
                                           text=msg)
 
             url_md5 = hashlib.md5(url.encode('utf-8')).hexdigest()
+            # When set prevents lookup until TIMEOUT Expires
             self.TIMEOUT[url_md5] = datetime.today().date()
             _LOG.info('Timeout Set: {0}'.format(url_md5))
+            atcBtn = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]'))).click();
 
     def set_cookies(self):
         self.driver.get('https://www.hottopic.com')
