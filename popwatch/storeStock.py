@@ -24,15 +24,20 @@ from operator import itemgetter
 _LOG = logging.getLogger(__name__)
 
 # User Defined Variables
-email = "klaus385385@icloud.com"
-f_name = "Stephen"
-l_name = "Klaus"
-zipCode = "85024"
-ad_one = "406 E. Rimrock Dr."
+email = "testemail1@gmail.com"
+f_name = "Test"
+l_name = "Email"
+zipCode = "85306"
+ad_one = "16239 N 45th Dr."
 ad_two = ""
-city = "Phoenix"
-phone = "4802359838"
-
+city = "Glendale"
+phone = "4807682764"
+ccOwner = f_name + " " + l_name
+ccNumber = "4342561969894295"
+mm = "08"
+yy = "22"
+expDate = mm + '/' + yy
+ccSecurityCode = "498"
 
 HTML_OBJ = {
     "hottopic": "presale-pdp",
@@ -58,21 +63,73 @@ class storeStock(object):
         self.THREAD_ALIVE = False
         self.driver = self.init_driver()
 
+    def ht_bl_checkout_process(self):
+        # Checkout Button then as unregistrated user
+        checkoutBtn = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="checkout-form"]/fieldset/div/button'))).click();
+        # Start as an Unregistered User
+        checkoutBtnAsGuest = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="primary"]/div[2]/div[1]/form/fieldset/div/button/span'))).click();
+        # Fill Out Form for Guest Checkout
+        # USER FORM AUTOMATION #
+        email_form = self.driver.find_element_by_id("dwfrm_singleshipping_email_emailAddress")
+        email_form.send_keys(email)
+        first_name_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_firstName")
+        first_name_form.send_keys(f_name)
+        last_name_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_lastName")
+        last_name_form.send_keys(l_name)
+        country_selection =  WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_country"]/option[2]'))).click();
+        zip_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_postal")
+        zip_form.send_keys(zipCode)
+        ad_one_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_address1")
+        ad_one_form.send_keys(ad_one)
+        ad_two_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_address2")
+        ad_two_form.send_keys(ad_two)
+        city_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_city")
+        city_form.send_keys(city)
+        country_selection =  WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_states_state"]/option[5]'))).click();
+        phone_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_phone")
+        phone_form.send_keys(phone)
+        # Continue to Billing Button
+        continueBillingBtn = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress"]/div[2]/fieldset/div/button'))).click();
+        # Enter Credit Card Information
+        # Credit Card Owner
+        creditCardOwner = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_owner")
+        creditCardOwner.send_keys(ccOwner)
+        # Credit Card Number
+        creditCardNum = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_number")
+        creditCardNum.send_keys(ccNumber)
+        # Credit Card Expiration Date
+        creditCardExp = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_userexp")
+        creditCardExp.send_keys(expDate)
+        # Credit Card Security Code
+        creditCardCCV = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_cvn")
+        creditCardCCV.send_keys(ccSecurityCode)
+        # Billing Review Button
+        reviewBillingBtn = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_billing"]/div[3]/button'))).click();
+        # Place Order Button
+        placeOrderBtn = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]'))).click();
+
     def init_driver(self):
         chrome_options = Options()
-        #chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--headless")
         chrome_options.add_argument("--credentials_enable_service=false")
         chrome_options.add_argument("--profile.password_manager_enabled=false")
 
         if get_distro() == "Raspbian GNU/Linux":
             driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION, chrome_options=chrome_options)
             driver.wait = WebDriverWait(driver, 3)
-            _LOG.info('Initialized chrome driver.')
+            _LOG.info('Initialized Chrome Driver.')
             return driver
         else:
             driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options)
             driver.wait = WebDriverWait(driver, 3)
-            _LOG.info('Initialized chrome driver.')
+            _LOG.info('Initialized Chrome Driver.')
             return driver
 
     def check_funko(self, site, url):
@@ -104,57 +161,30 @@ class storeStock(object):
                 self.driver.get(url)
                 # Bypass Popup overlay
                 self.driver.refresh()
-                #  Add to Cart Button
+                # Select Quantity
+                quantity =  WebDriverWait(self.driver, 20).until(
+                EC.element_to_be_clickable((By.XPATH, '//*[@id="Quantity"]/option[5]'))).click();
+                # Check to see if pop-up exists <- TODO!
+                # Add to Cart Button
                 atcBtn = WebDriverWait(self.driver, 20).until(
                 EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]'))).click();
+                #  Logic to Decide Sites Cart Link
                 if site in ['hottopic']:
                     cartLink = "https://www.hottopic.com/cart"
                     # Checkout Button
                     self.driver.get(cartLink)
-                    # Checkout Button then as unregistrated user
-                    checkoutBtn = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="checkout-form"]/fieldset/div/button'))).click();
-                    # Start as an Unregistered User
-                    checkoutBtnAsGuest = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="primary"]/div[2]/div[1]/form/fieldset/div/button/span'))).click();
-                    # Fill Out Form for Guest Checkout
-                    # USER FORM AUTOMATION #
-                    email_form = self.driver.find_element_by_id("dwfrm_singleshipping_email_emailAddress")
-                    email_form.send_keys(email)
-                    first_name_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_firstName")
-                    first_name_form.send_keys(f_name)
-                    last_name_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_lastName")
-                    last_name_form.send_keys(l_name)
-                    country_selection =  WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_country"]/option[2]'))).click();
-                    zip_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_postal")
-                    zip_form.send_keys(zipCode)
-                    ad_one_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_address1")
-                    ad_one_form.send_keys(ad_one)
-                    ad_two_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_address2")
-                    ad_two_form.send_keys(ad_two)
-                    city_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_city")
-                    city_form.send_keys(city)
-                    country_selection =  WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_states_state"]/option[5]'))).click();
-                    phone_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_phone")
-                    phone_form.send_keys(phone)
-                    # Continue to Billing Button
-                    continueBillingBtn = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress"]/div[2]/fieldset/div/button'))).click();
-
-                    # TODO - GET PAYPAL CHECKOUT WORKING
-
-                    # # Check Paypal Billing Option
-                    # billingPaypalOptionBtn = WebDriverWait(self.driver, 20).until(
-                    # EC.element_to_be_clickable((By.XPATH, '//*[@id="creditcard-payment-type"]/div/input'))).click();
-                    # # Continue Paypal Button
-                    # billingPaypalBtn = WebDriverWait(self.driver, 20).until(
-                    # EC.element_to_be_clickable((By.XPATH, '//*[@id="paypal-animation-content"]/div[1]/div'))).click();
-            # elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles']:
-            #     print("Still Work In Progress - Site(s): Walmart, B&N, Gamestop, Blizzard, Gemini Collectibles")
-            # elif site in ['target']:
-            #     print("Still Work In Progress - Site: Target")
+                    # Function to do Checkout Process
+                    checkoutProcess = self.ht_bl_checkout_process()
+                elif site in ['boxlunch']:
+                    cartLink = "https://www.boxlunch.com/cart"
+                    # Checkout Button
+                    self.driver.get(cartLink)
+                    # Function to do Checkout Process
+                    checkoutProcess = self.ht_bl_checkout_process()
+            elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles']:
+                print("Still Work In Progress - Site(s): Walmart, B&N, Gamestop, Blizzard, Gemini Collectibles")
+            elif site in ['target']:
+                print("Still Work In Progress - Site: Target")
 
     def set_cookies(self):
         self.driver.get('https://www.hottopic.com')
