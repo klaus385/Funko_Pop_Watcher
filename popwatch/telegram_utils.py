@@ -86,6 +86,35 @@ class telegramUtils(object):
         for elem in funkopop_links:
             update.message.reply_text(elem["url"])
 
+    # def setup(self, bot, update):
+    #     """Send a message when the command /add is issued."""
+    #     if not len(update.message.text.split()) == 2:
+    #         _LOG.error('Wrong number of parameters passed.')
+    #         update.message.reply_text('Wrong number of parameters passed.')
+
+    #     if not validators.url(update.message.text.split()[1]):
+    #         _LOG.error('URL exception {0}'.format(update.message.text.split()[1]))
+    #         update.message.reply_text('URL exception {0}'.format(update.message.text.split()[1]))
+
+    #     parsed = urlparse(update.message.text.split()[1])
+    #     store = parsed.netloc.split('.')[-2]
+
+    #     with portalocker.Lock(config.FUNKO_POP_LIST, "r", timeout=1) as data_file:
+    #         funkopop_links = json.load(data_file)
+
+    #     url = update.message.text.split()[1]
+    #     if not [x for x in funkopop_links if x['url'] == url]:
+    #         funkopop_links.append({"store": store, "url": url})
+    #     else:
+    #         _LOG.info('Duplicate entry ignored {0}'.format(url))
+    #         update.message.reply_text('Duplicate entry was not added to bot search.')
+    #         return
+
+    #     with portalocker.Lock(config.FUNKO_POP_LIST, "w", timeout=1) as data_file:
+    #         json.dump(funkopop_links, data_file, sort_keys=True, indent=4, separators=(',', ': '))
+
+    #     update.message.reply_text('Added entry into bot search.')
+
     def help(self, bot, update):
         """Send a message when the command /help is issued."""
         update.message.reply_text("Bot Commands:\n"
@@ -94,6 +123,7 @@ class telegramUtils(object):
                                   "/add - takes a parameter URL and adds it to search list\n"
                                   "/delete - takes a parameter URL and deletes it from the search list\n"
                                   "/list - lists current pop search list\n")
+                                  #"/setup - Creates User Profile for Auto Checkout\n"
 
     def error(self, bot, update, error):
         """Log Errors caused by Updates."""

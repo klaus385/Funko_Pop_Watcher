@@ -1,5 +1,6 @@
 # Pop Settings
 FUNKO_POP_LIST: './pops.json'
+#USER_INFO: './user.json'
 
 # Chrome Driver Settings
 DRIVER_LOCATION: './chromedriver'

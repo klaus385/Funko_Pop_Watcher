@@ -83,6 +83,7 @@ TELEGRAM_CHAT_ID = GLOBAL_CONFIG.get('TELEGRAM_CHAT_ID', os.environ['TELEGRAM_CH
 
 # Pops Settings
 FUNKO_POP_LIST = GLOBAL_CONFIG.get('FUNKO_POP_LIST')
+#USER_INFO = GLOBAL_CONFIG.get('USER_INFO')
 
 # Chrome Driver Settings
 if get_distro() == "Raspbian GNU/Linux":

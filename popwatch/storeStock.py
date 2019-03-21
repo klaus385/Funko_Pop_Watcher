@@ -192,7 +192,9 @@ class storeStock(object):
 
     def pop_search(self, sleep_interval=2):
         self.set_cookies()
-
+        # Set Bot to Auto Start
+        self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text="/start")
+        # Start Infinite Loop to Check if Funko Pop is Available
         while True:
             # Load in items from pops.json
             if self.THREAD_ALIVE:
