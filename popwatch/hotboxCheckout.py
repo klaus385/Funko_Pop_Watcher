@@ -1,7 +1,34 @@
 # Checkout Class for Hot Topic and Box Lunch
+import re
+import time
+import json
+import hashlib
+import logging
+import requests
+import portalocker
+import distro
 
+from popwatch import config
+from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
+
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.common.exceptions import TimeoutException
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+from operator import itemgetter
 
 class hotBox(object):
+
+     def __init__(self, UPDATER):
+        self.TIMEOUT = {}
+        self.UPDATER = UPDATER
+        self.THREAD_ALIVE = False
+        self.driver = self.init_driver()
 
     def ht_bl_checkout_process(self):
         # Checkout Button then as unregistrated user

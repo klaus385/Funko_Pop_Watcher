@@ -8,6 +8,7 @@ import portalocker
 import distro
 
 from popwatch import config
+from popwatch import hotboxCheckout
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 
