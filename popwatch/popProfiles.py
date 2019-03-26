@@ -1,0 +1,1 @@
+# Class to Create/Store Profiles for Each Store.

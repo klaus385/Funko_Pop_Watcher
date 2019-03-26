@@ -1,0 +1,1 @@
+# Checkout Class for Barnes and Noble
