@@ -6,6 +6,7 @@ import logging
 import requests
 import portalocker
 import distro
+import os
 
 from popwatch import config
 #from popwatch import hotboxCheckout
@@ -128,9 +129,12 @@ class storeStock(object):
         EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_billing"]/div[3]/button')))
         reviewBillingBtn.click()
         # Place Order Button
-        placeOrderBtn = WebDriverWait(self.driver, 20).until(
-        EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]')))
-        placeOrderBtn.click()
+        if os.environ['POPENV'] == "dev":
+            self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text="Funko Bot in Test Mode. Checkout Not Proceeding")
+        elif os.environ['POPENV'] == "prd":
+            placeOrderBtn = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]')))
+            placeOrderBtn.click()
 
     def init_driver(self):
         chrome_options = Options()
@@ -177,15 +181,30 @@ class storeStock(object):
             if site in ['hottopic', 'boxlunch']:
                 # Adds Item to the Cart
                 self.driver.get(url)
-                # Bypass Popup overlay
-                self.driver.refresh()
+                # Check if Pop Overlay Exists
+                popup = self.driver.find_elements_by_xpath('//*[@id="acsMainInvite"]/div/a[1]')
+
+                # Logic to Close Pop when it does exist
+                for popupCloseBtn in popup:
+                    popInnerText = popupCloseBtn.get_attribute('innerText')
+                    if popInnerText:
+                        print('Pop Found Initiating Closer of Pop Up')
+                        # Pop Up Found and Needs to be Dismissed
+                        popup.click()
+                    else:
+                        self.driver.refresh()
+
+                # TODO: Add Quantity Input for the Check Funko Function
+                # A. This will also dictate the original message sent to channel
+                # B. This will dictate number to buy
+                # NOTE: May want to run multiple instances and buy in singles.
                 # Select Quantity
-                quantity =  WebDriverWait(self.driver, 20).until(
-                EC.element_to_be_clickable((By.XPATH, '//*[@id="Quantity"]/option[5]')))
+                quantity = WebDriverWait(self.driver, 20).until(
+                    EC.element_to_be_clickable((By.XPATH, '//*[@id="Quantity"]/option[1]')))
                 quantity.click()
                 # Add to Cart Button
                 atcBtn = WebDriverWait(self.driver, 20).until(
-                EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]')))
+                    EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]')))
                 atcBtn.click()
                 #  Logic to Decide Sites Cart Link
                 if site in ['hottopic']:
@@ -212,7 +231,6 @@ class storeStock(object):
     def pop_search(self, sleep_interval=2):
         self.set_cookies()
         # Set Bot to Auto Start
-        self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text="On launch Starting Bot Search")
         self.THREAD_ALIVE = True
         # Start Infinite Loop to Check if Funko Pop is Available
         while True:

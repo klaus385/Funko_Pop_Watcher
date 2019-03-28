@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# This is to know if testing or not
+# Helps Not having to comment out the final
+# Step of checking out.
+POPENV="$1"
+export POPENV
+
 source Funko_Pop_Watcher/bin/activate
 
 # Start Bot with Production ENV Variables
