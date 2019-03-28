@@ -86,46 +86,51 @@ class storeStock(object):
         # USER FORM AUTOMATION #
         email_form = self.driver.find_element_by_id("dwfrm_singleshipping_email_emailAddress")
         email_form.send_keys(profile.email)
-        # first_name_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_firstName")
-        # first_name_form.send_keys(f_name)
-        # last_name_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_lastName")
-        # last_name_form.send_keys(l_name)
-        # country_selection =  WebDriverWait(self.driver, 20).until(
-        # EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_country"]/option[2]'))).click();
-        # zip_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_postal")
-        # zip_form.send_keys(zipCode)
-        # ad_one_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_address1")
-        # ad_one_form.send_keys(ad_one)
-        # ad_two_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_address2")
-        # ad_two_form.send_keys(ad_two)
-        # city_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_city")
-        # city_form.send_keys(city)
-        # state_selection =  WebDriverWait(self.driver, 20).until(
-        # EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_states_state"]/option[5]'))).click();
-        # phone_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_phone")
-        # phone_form.send_keys(phone)
-        # # Continue to Billing Button
-        # continueBillingBtn = WebDriverWait(self.driver, 20).until(
-        # EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress"]/div[2]/fieldset/div/button'))).click();
-        # # Enter Credit Card Information
-        # # Credit Card Owner
-        # creditCardOwner = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_owner")
-        # creditCardOwner.send_keys(ccOwner)
-        # # Credit Card Number
-        # creditCardNum = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_number")
-        # creditCardNum.send_keys(ccNumber)
-        # # Credit Card Expiration Date
-        # creditCardExp = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_userexp")
-        # creditCardExp.send_keys(expDate)
-        # # Credit Card Security Code
-        # creditCardCCV = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_cvn")
-        # creditCardCCV.send_keys(ccSecurityCode)
-        # # Billing Review Button
-        # reviewBillingBtn = WebDriverWait(self.driver, 20).until(
-        # EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_billing"]/div[3]/button'))).click();
-        # # Place Order Button
-        # placeOrderBtn = WebDriverWait(self.driver, 20).until(
-        # EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]'))).click();
+        first_name_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_firstName")
+        first_name_form.send_keys(profile.f_name)
+        last_name_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_lastName")
+        last_name_form.send_keys(profile.l_name)
+        country_selection =  WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_country"]/option[2]')))
+        country_selection.click()
+        zip_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_postal")
+        zip_form.send_keys(profile.zipCode)
+        ad_one_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_address1")
+        ad_one_form.send_keys(profile.ad_one)
+        ad_two_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_address2")
+        ad_two_form.send_keys(profile.ad_two)
+        city_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_city")
+        city_form.send_keys(profile.city)
+        state_selection =  WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_states_state"]/option[5]')))
+        state_selection.click()
+        phone_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_phone")
+        phone_form.send_keys(profile.phone)
+        # Continue to Billing Button
+        continueBillingBtn = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress"]/div[2]/fieldset/div/button')))
+        continueBillingBtn.click()
+        # Enter Credit Card Information
+        # Credit Card Owner
+        creditCardOwner = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_owner")
+        creditCardOwner.send_keys(profile.ccOwner)
+        # Credit Card Number
+        creditCardNum = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_number")
+        creditCardNum.send_keys(profile.ccNumber)
+        # Credit Card Expiration Date
+        creditCardExp = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_userexp")
+        creditCardExp.send_keys(profile.expDate)
+        # Credit Card Security Code
+        creditCardCCV = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_cvn")
+        creditCardCCV.send_keys(profile.ccSecurityCode)
+        # Billing Review Button
+        reviewBillingBtn = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_billing"]/div[3]/button')))
+        reviewBillingBtn.click()
+        # Place Order Button
+        placeOrderBtn = WebDriverWait(self.driver, 20).until(
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]')))
+        placeOrderBtn.click()
 
     def init_driver(self):
         chrome_options = Options()
@@ -176,24 +181,25 @@ class storeStock(object):
                 self.driver.refresh()
                 # Select Quantity
                 quantity =  WebDriverWait(self.driver, 20).until(
-                EC.element_to_be_clickable((By.XPATH, '//*[@id="Quantity"]/option[5]'))).click();
-                # Check to see if pop-up exists <- TODO!
+                EC.element_to_be_clickable((By.XPATH, '//*[@id="Quantity"]/option[5]')))
+                quantity.click()
                 # Add to Cart Button
                 atcBtn = WebDriverWait(self.driver, 20).until(
-                EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]'))).click();
+                EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]')))
+                atcBtn.click()
                 #  Logic to Decide Sites Cart Link
                 if site in ['hottopic']:
                     cartLink = "https://www.hottopic.com/cart"
                     # Checkout Button
                     self.driver.get(cartLink)
                     # Function to do Checkout Process
-                    checkoutProcess = self.ht_bl_checkout_process()
+                    self.ht_bl_checkout_process()
                 elif site in ['boxlunch']:
                     cartLink = "https://www.boxlunch.com/cart"
                     # Checkout Button
                     self.driver.get(cartLink)
                     # Function to do Checkout Process
-                    checkoutProcess = self.ht_bl_checkout_process()
+                    self.ht_bl_checkout_process()
             elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles']:
                 print("Still Work In Progress - Site(s): Walmart, B&N, Gamestop, Blizzard, Gemini Collectibles")
             elif site in ['target']:
