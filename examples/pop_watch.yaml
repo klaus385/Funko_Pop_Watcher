@@ -3,7 +3,7 @@ FUNKO_POP_LIST: './pops.json'
 #USER_INFO: './user.json'
 
 # Chrome Driver Settings
-DRIVER_LOCATION: './chromedriver'
+DRIVER_LOCATION: '/usr/bin/chromedriver'
 
 logging_config:
   version: 1

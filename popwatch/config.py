@@ -19,7 +19,10 @@ global GLOBAL_CONFIG
 global CONFIG_FILE
 global CONFIG_FILE_ERROR
 
-CONFIG_FILE = os.environ.get('FUNKO_POP_WATCH_CONFIG', './examples/pop_watch.yaml')
+if get_distro() == "Raspbian GNU/Linux":
+    CONFIG_FILE = os.environ.get('FUNKO_POP_WATCH_CONFIG', '/root/FunkoATCBot/examples/pop_watch.yaml')
+else:
+    CONFIG_FILE = os.environ.get('FUNKO_POP_WATCH_CONFIG', './examples/pop_watch.yaml')
 
 try:
     with open(CONFIG_FILE, "r") as f:

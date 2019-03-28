@@ -89,7 +89,7 @@ class storeStock(object):
         ad_two_form.send_keys(ad_two)
         city_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_city")
         city_form.send_keys(city)
-        country_selection =  WebDriverWait(self.driver, 20).until(
+        state_selection =  WebDriverWait(self.driver, 20).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_states_state"]/option[5]'))).click();
         phone_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_phone")
         phone_form.send_keys(phone)
@@ -121,6 +121,7 @@ class storeStock(object):
         chrome_options.add_argument("--headless")
         chrome_options.add_argument("--credentials_enable_service=false")
         chrome_options.add_argument("--profile.password_manager_enabled=false")
+        chrome_options.add_argument("--no-sandbox")
 
         if get_distro() == "Raspbian GNU/Linux":
             driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION, chrome_options=chrome_options)
