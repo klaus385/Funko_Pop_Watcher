@@ -136,12 +136,22 @@ class storeStock(object):
             EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]')))
             placeOrderBtn.click()
 
+    # def target_checkout_process(self):
+
     def init_driver(self):
         chrome_options = Options()
-        chrome_options.add_argument("--headless")
+        if os.environ['POPENV'] == "dev":
+            print('Not Setting Headless for Development Purposes')
+        elif os.environ['POPENV'] == "prd":
+            chrome_options.add_argument("--headless")
         chrome_options.add_argument("--credentials_enable_service=false")
         chrome_options.add_argument("--profile.password_manager_enabled=false")
         chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--credentials_enable_service=false")
+        chrome_options.add_argument('--no-default-browser-check')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--disable-extensions')
+        chrome_options.add_argument('--disable-default-apps')
 
         if get_distro() == "Raspbian GNU/Linux":
             driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION, chrome_options=chrome_options)
@@ -222,7 +232,42 @@ class storeStock(object):
             elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles']:
                 print("Still Work In Progress - Site(s): Walmart, B&N, Gamestop, Blizzard, Gemini Collectibles")
             elif site in ['target']:
-                print("Still Work In Progress - Site: Target")
+                # Initial Click for "Ship It"
+                ship_it_btn = WebDriverWait(self.driver, 20).until(
+                    EC.element_to_be_clickable((By.XPATH,
+                    '//*[@id="mainContainer"]/div/div/div[1]/div[2]/div/div[5]/div/div[1]/div[1]/div/div[2]/div/button')))
+                ship_it_btn.click()
+                # Go to Cart and Start Checkout
+                cart_and_checkout = WebDriverWait(self.driver, 20).until(
+                    EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "View cart & checkout")]')))
+                cart_and_checkout.click()
+                # Select Quantity
+                quantity = WebDriverWait(self.driver, 20).until(
+                    EC.element_to_be_clickable((By.XPATH, '//*[@id="select_12"]/option[5]')))
+                quantity.click()
+                # Actually Checkout
+                ready_to_checkout = WebDriverWait(self.driver, 20).until(
+                    EC.element_to_be_clickable((By.XPATH, '//*[@id="orderSummaryWrapperDiv"]/div/div/div[2]/button')))
+                ready_to_checkout.click()
+                # Make Fake Account to Attempt Checkout
+                create_fake_account = WebDriverWait(self.driver, 20).until(
+                    EC.element_to_be_clickable((By.XPATH, '//*[@id="createAccount"]')))
+                create_fake_account.click()
+                # Fake Account User Email
+                fake_account_user = self.driver.find_element_by_id("username")
+                fake_account_user.send_keys(profile.email)
+                fake_account_f_name = self.driver.find_element_by_id("firstname")
+                fake_account_f_name.send_keys(profile.f_name)
+                fake_account_l_name = self.driver.find_element_by_id("lastname")
+                fake_account_l_name.send_keys(profile.l_name)
+                fake_account_phone = self.driver.find_element_by_id("phone")
+                fake_account_phone.send_keys(profile.phone)
+                fake_account_pass = self.driver.find_element_by_id("password")
+                fake_account_pass.send_keys("FakeUserPassword1234!")
+                create_fake_account_btn = WebDriverWait(self.driver, 20).until(
+                    EC.element_to_be_clickable((By.XPATH, '//*[@id="createAccount"]')))
+                create_fake_account_btn.click()
+
 
     def set_cookies(self):
         self.driver.get('https://www.hottopic.com')
