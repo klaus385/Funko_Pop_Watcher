@@ -58,6 +58,7 @@ HTML_OBJ = {
     "gamestop": "addOnSalesModalEligible",
     "blizzard": "product-addtocart-button",
     "geminicollectibles": "add-to-cart",
+    "hbo": "AddToCart-product-template",
     "target": "h-text-orangeDark"}
 
 def get_distro():
@@ -136,6 +137,88 @@ class storeStock(object):
             EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]')))
             placeOrderBtn.click()
 
+    def hbo_checkout_process(self):
+        # # Check if Pop Overlay Exists
+        # # popup = self.driver.find_elements_by_xpath(
+                #     '//*[@id="privy-inner-container"]/div[1]/div/div/div[3]/div[5]/button')
+
+        # # Logic to Close Pop when it does exist
+        # for popupCloseBtn in popup:
+        #     popInnerText = popupCloseBtn.get_attribute('innerText')
+        #     if popInnerText:
+        #         print('Pop Found Initiating Closer of Pop Up')
+        #         # Pop Up Found and Needs to be Dismissed
+        #         popup.click()
+        #     else:
+        #         self.driver.refresh()
+        # Find quantity element by name
+        quantity = self.driver.find_element_by_name("quantity")
+        # Reset Default Quantity Value
+        self.driver.execute_script("arguments[0].value = ''", quantity)
+        # Input to form number of items wanted
+        quantity.send_keys("2")
+        # Using Javascript to Add Item to Cart
+        self.driver.execute_script("document.getElementById('AddToCart-product-template').click()")
+        # Checkout Button
+        hboCheckoutBtn = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="MiniCart"]/a[1]')))
+        hboCheckoutBtn.click()
+        #  Enter Coupon Code
+        # couponCode = self.driver.find_element_by_id("checkout_reduction_code")
+        # couponCode.send_keys("WELCOME15")
+        # Start Entering User Information
+        hboEmailForm = self.driver.find_element_by_id("checkout_email")
+        hboEmailForm.send_keys(profile.email)
+        hboFName = self.driver.find_element_by_id("checkout_shipping_address_first_name")
+        hboFName.send_keys(profile.f_name)
+        hboLName = self.driver.find_element_by_id("checkout_shipping_address_last_name")
+        hboLName.send_keys(profile.l_name)
+        hboADOne = self.driver.find_element_by_id("checkout_shipping_address_address1")
+        hboADOne.send_keys(profile.ad_one)
+        hboADTwo = self.driver.find_element_by_id("checkout_shipping_address_address2")
+        hboADTwo.send_keys(profile.ad_two)
+        hboCity = self.driver.find_element_by_id("checkout_shipping_address_city")
+        hboCity.send_keys(profile.city)
+        hboCountrySelection = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="checkout_shipping_address_country"]/option[1]')))
+        hboCountrySelection.click()
+        hboStateSelection = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '//*[@id="checkout_shipping_address_province"]/option[5]')))
+        hboStateSelection.click()
+        hboZipCode = self.driver.find_element_by_id("checkout_shipping_address_zip")
+        hboZipCode.send_keys(profile.zipCode)
+        hboPhone = self.driver.find_element_by_id("checkout_shipping_address_phone")
+        hboPhone.send_keys(profile.phone)
+        # Go to Shipping Method Page
+        hboShippingMethodBtn = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div/form/div[2]/button')))
+        hboShippingMethodBtn.click()
+        # Go to Payment Method Page
+        hboPaymentMethodBtn = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div/form/div[2]/button')))
+        hboPaymentMethodBtn.click()
+        # Credit Card Information Form Fill Out
+        # Credit Card Number
+        hbocreditCardNumIframe = self.driver.switch_to.frame(
+            self.driver.find_element_by_class_name("card-fields-iframe"))
+        self.driver.switch_to.frame(hbocreditCardNumIframe)
+        hbocreditCardNum = self.driver.find_element_by_name('number')
+        hbocreditCardNum.send_keys(profile.ccNumber)
+        self.driver.switch_to_default_content
+        # Credit Card Owner
+        # hbocreditCardOwner = self.driver.find_element_by_id("name")
+        # hbocreditCardOwner.send_keys(profile.ccOwner)
+        # # Credit Card Expiration Date
+        # hbocreditCardExp = self.driver.find_element_by_id("expiry")
+        # hbocreditCardExp.send_keys(profile.expDate)
+        # # # Credit Card Security Code
+        # hbocreditCardCCV = self.driver.find_element_by_id("verification_value")
+        # hbocreditCardCCV.send_keys(profile.ccSecurityCode)
+        # # Complete Order Button
+        # hboCompleteOrderBtn = WebDriverWait(self.driver, 20).until(
+        #     EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div/div/form/div[3]/div[1]/button')))
+        # hboCompleteOrderBtn.click()
+
     # def target_checkout_process(self):
 
     def init_driver(self):
@@ -171,7 +254,7 @@ class storeStock(object):
 
         if site in ['hottopic', 'boxlunch']:
             status = self.in_stock(site, url)
-        elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles']:
+        elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles', 'hbo']:
             status = self.add_to_cart(site, url)
         elif site in ['target']:
             status = self.out_of_stock(site, url)
@@ -180,7 +263,7 @@ class storeStock(object):
         if status:
             msg = site + " - In Stock: " + ":\n" + url
             self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID,
-                                          text=msg)
+                  text=msg)
 
             #  Setting Timout for Search Item
             url_md5 = hashlib.md5(url.encode('utf-8')).hexdigest()
@@ -196,13 +279,13 @@ class storeStock(object):
 
                 # Logic to Close Pop when it does exist
                 for popupCloseBtn in popup:
-                    popInnerText = popupCloseBtn.get_attribute('innerText')
-                    if popInnerText:
-                        print('Pop Found Initiating Closer of Pop Up')
-                        # Pop Up Found and Needs to be Dismissed
-                        popup.click()
-                    else:
-                        self.driver.refresh()
+        popInnerText = popupCloseBtn.get_attribute('innerText')
+        if popInnerText:
+            print('Pop Found Initiating Closer of Pop Up')
+            # Pop Up Found and Needs to be Dismissed
+            popup.click()
+        else:
+            self.driver.refresh()
 
                 # TODO: Add Quantity Input for the Check Funko Function
                 # A. This will also dictate the original message sent to channel
@@ -210,63 +293,33 @@ class storeStock(object):
                 # NOTE: May want to run multiple instances and buy in singles.
                 # Select Quantity
                 quantity = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="Quantity"]/option[1]')))
+        EC.element_to_be_clickable((By.XPATH, '//*[@id="Quantity"]/option[1]')))
                 quantity.click()
                 # Add to Cart Button
                 atcBtn = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]')))
+        EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]')))
                 atcBtn.click()
                 #  Logic to Decide Sites Cart Link
                 if site in ['hottopic']:
-                    cartLink = "https://www.hottopic.com/cart"
-                    # Checkout Button
-                    self.driver.get(cartLink)
-                    # Function to do Checkout Process
-                    self.ht_bl_checkout_process()
+        cartLink = "https://www.hottopic.com/cart"
+        # Checkout Button
+        self.driver.get(cartLink)
+        # Function to do Checkout Process
+        self.ht_bl_checkout_process()
                 elif site in ['boxlunch']:
-                    cartLink = "https://www.boxlunch.com/cart"
-                    # Checkout Button
-                    self.driver.get(cartLink)
-                    # Function to do Checkout Process
-                    self.ht_bl_checkout_process()
-            elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles']:
-                print("Still Work In Progress - Site(s): Walmart, B&N, Gamestop, Blizzard, Gemini Collectibles")
+        cartLink = "https://www.boxlunch.com/cart"
+        # Checkout Button
+        self.driver.get(cartLink)
+        # Function to do Checkout Process
+        self.ht_bl_checkout_process()
+            elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles', 'hbo']:
+                # Checkout Process for Other Sites
+                if site in ['hbo']:
+                    self.hbo_checkout_process()
+                else:
+        print("Still Work In Progress - Site(s): Walmart, B&N, Gamestop, Blizzard, Gemini Collectibles")
             elif site in ['target']:
-                # Initial Click for "Ship It"
-                ship_it_btn = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH,
-                    '//*[@id="mainContainer"]/div/div/div[1]/div[2]/div/div[5]/div/div[1]/div[1]/div/div[2]/div/button')))
-                ship_it_btn.click()
-                # Go to Cart and Start Checkout
-                cart_and_checkout = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "View cart & checkout")]')))
-                cart_and_checkout.click()
-                # Select Quantity
-                quantity = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="select_12"]/option[5]')))
-                quantity.click()
-                # Actually Checkout
-                ready_to_checkout = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="orderSummaryWrapperDiv"]/div/div/div[2]/button')))
-                ready_to_checkout.click()
-                # Make Fake Account to Attempt Checkout
-                create_fake_account = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="createAccount"]')))
-                create_fake_account.click()
-                # Fake Account User Email
-                fake_account_user = self.driver.find_element_by_id("username")
-                fake_account_user.send_keys(profile.email)
-                fake_account_f_name = self.driver.find_element_by_id("firstname")
-                fake_account_f_name.send_keys(profile.f_name)
-                fake_account_l_name = self.driver.find_element_by_id("lastname")
-                fake_account_l_name.send_keys(profile.l_name)
-                fake_account_phone = self.driver.find_element_by_id("phone")
-                fake_account_phone.send_keys(profile.phone)
-                fake_account_pass = self.driver.find_element_by_id("password")
-                fake_account_pass.send_keys("FakeUserPassword1234!")
-                create_fake_account_btn = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="createAccount"]')))
-                create_fake_account_btn.click()
+                print("Still Work In Progress - Site(s): Target")
 
 
     def set_cookies(self):
@@ -282,20 +335,20 @@ class storeStock(object):
             # Load in items from pops.json
             if self.THREAD_ALIVE:
                 with portalocker.Lock(config.FUNKO_POP_LIST, "r", timeout=10) as data_file:
-                    funkopop_links = json.load(data_file)
+        funkopop_links = json.load(data_file)
 
                 for funko in funkopop_links:
-                    url_md5 = hashlib.md5(funko['url'].encode('utf-8')).hexdigest()
-                    try:
-                        if url_md5 not in self.TIMEOUT:
-                            self.check_funko(funko['store'], funko['url'])
-                        elif url_md5 in self.TIMEOUT and self.TIMEOUT[url_md5] < datetime.today().date():
-                            if datetime.now().hour > 7:
-                                self.check_funko(funko['store'], funko['url'])
-                    except Exception as excp:
-                        _LOG.error('Exception {0}'.format(excp))
-                        import traceback
-                        traceback.print_exc()
+        url_md5 = hashlib.md5(funko['url'].encode('utf-8')).hexdigest()
+        try:
+            if url_md5 not in self.TIMEOUT:
+                self.check_funko(funko['store'], funko['url'])
+            elif url_md5 in self.TIMEOUT and self.TIMEOUT[url_md5] < datetime.today().date():
+                if datetime.now().hour > 7:
+                    self.check_funko(funko['store'], funko['url'])
+        except Exception as excp:
+            _LOG.error('Exception {0}'.format(excp))
+            import traceback
+            traceback.print_exc()
 
             time.sleep(sleep_interval)
 
@@ -336,10 +389,13 @@ class storeStock(object):
         try:
             if site == 'blizzard':
                 addToCart = self.driver.wait.until(
-                    EC.presence_of_element_located((By.ID, HTML_OBJ[site])))
+        EC.presence_of_element_located((By.ID, HTML_OBJ[site])))
+            elif site == 'hbo':
+                addToCart = self.driver.wait.until(
+        EC.presence_of_element_located((By.ID, HTML_OBJ[site])))
             else:
                 addToCart = self.driver.wait.until(
-                    EC.presence_of_element_located((By.CLASS_NAME, HTML_OBJ[site])))
+        EC.presence_of_element_located((By.CLASS_NAME, HTML_OBJ[site])))
         except TimeoutException:
             _LOG.warning('Failed to locate element for "Add to Cart".')
             return False
