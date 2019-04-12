@@ -7,6 +7,7 @@ import logging
 import requests
 import portalocker
 import distro
+import os
 
 from popwatch import config
 from bs4 import BeautifulSoup
@@ -31,15 +32,25 @@ def get_distro():
     distroName = itemgetter(0)(distrobution)
     return distroName
 
-
 class InitChromeDriver(object):
-    # Function to Define Chrome Driver in Single Place
+    
+    def __init__(self):
+        self.driver = self.init_driver()
+
     def init_driver(self):
         chrome_options = Options()
-        chrome_options.add_argument("--headless")
+        if os.environ['POPENV'] == "dev":
+            print('Not Setting Headless for Development Purposes')
+        elif os.environ['POPENV'] == "prd":
+            chrome_options.add_argument("--headless")
         chrome_options.add_argument("--credentials_enable_service=false")
         chrome_options.add_argument("--profile.password_manager_enabled=false")
         chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--credentials_enable_service=false")
+        chrome_options.add_argument('--no-default-browser-check')
+        chrome_options.add_argument('--disable-gpu')
+        chrome_options.add_argument('--disable-extensions')
+        chrome_options.add_argument('--disable-default-apps')
 
         if get_distro() == "Raspbian GNU/Linux":
             driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION, chrome_options=chrome_options)
