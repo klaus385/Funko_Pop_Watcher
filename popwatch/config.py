@@ -20,6 +20,8 @@ global CONFIG_FILE_ERROR
 
 if get_distro() == "Raspbian GNU/Linux":
     CONFIG_FILE = os.environ.get('FUNKO_POP_WATCH_CONFIG', '/root/FunkoATCBot/examples/pop_watch.yaml')
+elif get_distro() == "Windows":
+    CONFIG_FILE = os.environ.get('FUNKO_POP_WATCH_CONFIG', './examples/pop_watch_windows.yaml')
 else:
     CONFIG_FILE = os.environ.get('FUNKO_POP_WATCH_CONFIG', './examples/pop_watch.yaml')
 
@@ -90,3 +92,7 @@ USER_INFO = GLOBAL_CONFIG.get('USER_INFO')
 # Chrome Driver Settings
 if get_distro() == "Raspbian GNU/Linux":
     DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', './chromedriver')
+elif get_distro() == "Windows":
+    DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', './chromedriver.exe')
+else get_distro() == "Darwin":
+    DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', '/usr/bin/chromedriver')
