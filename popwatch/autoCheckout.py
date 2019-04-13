@@ -48,10 +48,6 @@ def profileInit():
 # Instantiating Pop Profile
 profile = profileInit()
 
-
-def startDriver(stkObj):
-    stkObj.init
-
 # The Class that handles all the Selenium Logic for
 # Auto checking out an Item
 
