@@ -412,4 +412,3 @@ class storeStock(object):
             response = True
 
         return response
->>>>>>> origin-atc/add-aco-all-sites
