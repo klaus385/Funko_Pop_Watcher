@@ -1,1 +1,0 @@
-# Checkout Class for Walmart
