@@ -5,7 +5,7 @@ import hashlib
 import logging
 import requests
 import portalocker
-import distro
+import platform
 import os
 
 from popwatch import config
@@ -62,8 +62,7 @@ HTML_OBJ = {
 
 def get_distro():
     # Checking Distrobution before passing in connection string
-    distrobution = distro.linux_distribution()
-    distroName = itemgetter(0)(distrobution)
+    distroName = platform.system()
     return distroName
 
 class storeStock(object):
@@ -235,11 +234,19 @@ class storeStock(object):
         chrome_options.add_argument('--disable-extensions')
         chrome_options.add_argument('--disable-default-apps')
 
+        # Rasberry Pi Support
         if get_distro() == "Raspbian GNU/Linux":
             driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION, chrome_options=chrome_options)
             driver.wait = WebDriverWait(driver, 3)
             _LOG.info('Initialized Chrome Driver.')
             return driver
+        # Windows Support
+        elif get_distro() == "Windows":
+            driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION, chrome_options=chrome_options)
+            driver.wait = WebDriverWait(driver, 3)
+            _LOG.info('Initialized Chrome Driver.')
+            return driver
+        # Darwin AKA: macOS Support
         else:
             driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=chrome_options)
             driver.wait = WebDriverWait(driver, 3)

@@ -17,10 +17,6 @@ def startfunc(stkObj):
 
 
 def main():
-    # Setting Telegram Token
-    subprocess.check_call("export TELEGRAM_TOKEN=653625270:AAE3SY6TQp7eV_XdwjT1eeLqCRGWMX9HR0s", shell=True)
-    # Setting Telegram Chat Id
-    subprocess.check_call("export TELEGRAM_CHATID=482379749", shell=True)
     # Create the EventHandler and pass it your bot's token.
     UPDATER = Updater(config.TELEGRAM_TOKEN)
 

@@ -4,15 +4,14 @@ import yaml
 import yaml.error
 import logging
 import logging.config
-import distro
+import platform
 from operator import itemgetter
 
 _LOG = logging.getLogger(__name__)
 
 def get_distro():
     # Checking Distrobution before passing in connection string
-    distrobution = distro.linux_distribution()
-    distroName = itemgetter(0)(distrobution)
+    distroName = platform.system()
     return distroName
 
 global GLOBAL_CONFIG
