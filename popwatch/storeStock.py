@@ -338,6 +338,19 @@ class storeStock(object):
                     self.driver.get(cartLink)
                     # Function to do Checkout Process
                     self.ht_bl_checkout_process(site)
+                    # Check if Pop Overlay Exists Again
+                    # This is to allow for Clean Order Screenshot
+                    popup = self.driver.find_elements_by_xpath('//*[@id="acsFocusFirst"]')
+
+                    # Logic to Close Pop when it does exist
+                    for popupCloseBtn in popup:
+                        popInnerText = popupCloseBtn.get_attribute('innerText')
+                        if popInnerText:
+                            print('Pop Found Initiating Closer of Pop Up')
+                            # Pop Up Found and Needs to be Dismissed
+                            popup.click()
+                        else:
+                            self.driver.refresh()
                     # Take Screen Shot of Order
                     self.driver.save_screenshot("order.png")
                     self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID,
@@ -353,6 +366,19 @@ class storeStock(object):
                     self.driver.get(cartLink)
                     # Function to do Checkout Process
                     self.ht_bl_checkout_process(site)
+                    # Check if Pop Overlay Exists Again
+                    # This is to allow for Clean Order Screenshot
+                    popup = self.driver.find_elements_by_xpath('//*[@id="acsFocusFirst"]')
+
+                    # Logic to Close Pop when it does exist
+                    for popupCloseBtn in popup:
+                        popInnerText = popupCloseBtn.get_attribute('innerText')
+                        if popInnerText:
+                            print('Pop Found Initiating Closer of Pop Up')
+                            # Pop Up Found and Needs to be Dismissed
+                            popup.click()
+                        else:
+                            self.driver.refresh()
                     # Take Screen Shot of Order
                     self.driver.save_screenshot("order.png")
                     self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID,
