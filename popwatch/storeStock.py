@@ -104,12 +104,8 @@ class storeStock(object):
         state_selection =  WebDriverWait(self.driver, 20).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_states_state"]/option[5]')))
         state_selection.click()
-        if site in ['hottopic']:
-            phone_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_phone")
-            phone_form.send_keys(profile.phone)
-        else:
-            phone_form = self.driver.find_element_by_id("formatted-phone")
-            phone_form.send_keys(profile.phone)
+        phone_form = self.driver.find_element_by_id("formatted-phone")
+        phone_form.send_keys(profile.phone)
         # Continue to Billing Button
         continueBillingBtn = WebDriverWait(self.driver, 20).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress"]/div[2]/fieldset/div/button')))
@@ -300,7 +296,7 @@ class storeStock(object):
                 # Adds Item to the Cart
                 self.driver.get(url)
                 # Check if Pop Overlay Exists
-                popup = self.driver.find_elements_by_xpath('//*[@id="acsMainInvite"]/div/a[1]')
+                popup = self.driver.find_elements_by_xpath('//*[@id="acsFocusFirst"]')
 
                 # Logic to Close Pop when it does exist
                 for popupCloseBtn in popup:
@@ -316,9 +312,19 @@ class storeStock(object):
                 # A. This will also dictate the original message sent to channel
                 # B. This will dictate number to buy
                 # NOTE: May want to run multiple instances and buy in singles.
+                # Setup Quantity SUdo Dynamic
+                if os.environ['POPENV'] == "dev":
+                    amount = "1"
+                    quantitySelectorString = '//*[@id="Quantity"]/option[' + amount + ']'
+                elif os.environ['POPENV'] == "stg":
+                    amount = "3"
+                    quantitySelectorString = '//*[@id="Quantity"]/option[' + amount + ']'
+                elif os.environ['POPENV'] == "prd":
+                    amount = "5"
+                    quantitySelectorString = '//*[@id="Quantity"]/option[' + amount + ']'
                 # Select Quantity
                 quantity = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="Quantity"]/option[5]')))
+                    EC.element_to_be_clickable((By.XPATH, quantitySelectorString)))
                 quantity.click()
                 # Add to Cart Button
                 atcBtn = WebDriverWait(self.driver, 20).until(
