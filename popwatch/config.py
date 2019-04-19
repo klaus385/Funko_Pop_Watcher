@@ -90,7 +90,7 @@ FUNKO_POP_LIST = GLOBAL_CONFIG.get('FUNKO_POP_LIST')
 USER_INFO = GLOBAL_CONFIG.get('USER_INFO')
 
 # Chrome Driver Settings
-if get_distro() == "Raspbian GNU/Linux":
+if get_distro() == "Linux":
     DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', './chromedriver')
 elif get_distro() == "Windows":
     DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', './chromedriver.exe')
