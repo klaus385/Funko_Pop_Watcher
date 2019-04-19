@@ -133,7 +133,7 @@ class storeStock(object):
                                           text="Funko Bot in Test Mode. Checkout Not Proceeding")
         elif os.environ['POPENV'] == "stg":
             self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID,
-                                          text="Will run checkout process without headless chrome option enabled")
+                                          text="Running Checkout Process Without Headless")
             placeOrderBtn = WebDriverWait(self.driver, 20).until(
                 EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]')))
             placeOrderBtn.click()
