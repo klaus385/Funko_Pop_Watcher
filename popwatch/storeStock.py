@@ -310,7 +310,7 @@ class storeStock(object):
                 # NOTE: May want to run multiple instances and buy in singles.
                 # Select Quantity
                 quantity = WebDriverWait(self.driver, 20).until(
-                    EC.element_to_be_clickable((By.XPATH, '//*[@id="Quantity"]/option[1]')))
+                    EC.element_to_be_clickable((By.XPATH, '//*[@id="Quantity"]/option[5]')))
                 quantity.click()
                 # Add to Cart Button
                 atcBtn = WebDriverWait(self.driver, 20).until(
@@ -323,12 +323,20 @@ class storeStock(object):
                     self.driver.get(cartLink)
                     # Function to do Checkout Process
                     self.ht_bl_checkout_process(site)
+                    # Return Order Number And Send to Bot
+                    for elem in self.driver.find_elements_by_xpath('.//span[@class = "order-summary"]'):
+                        orderNumber = "Your Order Number is: " + ":\n" + elem.text
+                        self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text=orderNumber)
                 elif site in ['boxlunch']:
                     cartLink = "https://www.boxlunch.com/cart"
                     # Checkout Button
                     self.driver.get(cartLink)
                     # Function to do Checkout Process
                     self.ht_bl_checkout_process(site)
+                    # Return Order Number And Send to Bot
+                    for elem in self.driver.find_elements_by_xpath('.//span[@class = "order-summary"]'):
+                        orderNumber = "Your Order Number is: " + ":\n" + elem.text
+                        self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text=orderNumber)
             elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles', 'hbo']:
                 # Checkout Process for Other Sites
                 if site in ['hbo']:
