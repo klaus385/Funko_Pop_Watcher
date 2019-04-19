@@ -73,7 +73,7 @@ class storeStock(object):
         self.THREAD_ALIVE = False
         self.driver = self.init_driver()
 
-    def ht_bl_checkout_process(self):
+    def ht_bl_checkout_process(self, site):
         # Checkout Button then as unregistrated user
         checkoutBtn = WebDriverWait(self.driver, 20).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="checkout-form"]/fieldset/div/button')))
@@ -104,8 +104,12 @@ class storeStock(object):
         state_selection =  WebDriverWait(self.driver, 20).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_states_state"]/option[5]')))
         state_selection.click()
-        phone_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_phone")
-        phone_form.send_keys(profile.phone)
+        if site in ['hottopic']:
+            phone_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_phone")
+            phone_form.send_keys(profile.phone)
+        else:
+            phone_form = self.driver.find_element_by_id("formatted-phone")
+            phone_form.send_keys(profile.phone)
         # Continue to Billing Button
         continueBillingBtn = WebDriverWait(self.driver, 20).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress"]/div[2]/fieldset/div/button')))
@@ -230,7 +234,8 @@ class storeStock(object):
         if os.environ['POPENV'] == "dev":
             print('Not Setting Headless for Development Purposes')
         elif os.environ['POPENV'] == "prd":
-            chrome_options.add_argument("--headless")
+            print "Temp Disable"
+            #chrome_options.add_argument("--headless")
         chrome_options.add_argument("--credentials_enable_service=false")
         chrome_options.add_argument("--profile.password_manager_enabled=false")
         chrome_options.add_argument("--no-sandbox")
@@ -317,13 +322,13 @@ class storeStock(object):
                     # Checkout Button
                     self.driver.get(cartLink)
                     # Function to do Checkout Process
-                    self.ht_bl_checkout_process()
+                    self.ht_bl_checkout_process(site)
                 elif site in ['boxlunch']:
                     cartLink = "https://www.boxlunch.com/cart"
                     # Checkout Button
                     self.driver.get(cartLink)
                     # Function to do Checkout Process
-                    self.ht_bl_checkout_process()
+                    self.ht_bl_checkout_process(site)
             elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles', 'hbo']:
                 # Checkout Process for Other Sites
                 if site in ['hbo']:
