@@ -325,7 +325,7 @@ class storeStock(object):
                     self.ht_bl_checkout_process(site)
                     # Return Order Number And Send to Bot
                     for elem in self.driver.find_elements_by_xpath('.//span[@class = "order-summary"]'):
-                        orderNumber = "Your Order Number is: " + ":\n" + elem.text
+                        orderNumber = "Checkout was SUCESSFUL!" + " Your Order Number is: " + ":\n" + elem.text
                         self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text=orderNumber)
                 elif site in ['boxlunch']:
                     cartLink = "https://www.boxlunch.com/cart"
@@ -335,7 +335,7 @@ class storeStock(object):
                     self.ht_bl_checkout_process(site)
                     # Return Order Number And Send to Bot
                     for elem in self.driver.find_elements_by_xpath('.//span[@class = "order-summary"]'):
-                        orderNumber = "Your Order Number is: " + ":\n" + elem.text
+                        orderNumber = "Checkout was SUCESSFUL!" + " Your Order Number is: " + ":\n" + elem.text
                         self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text=orderNumber)
             elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles', 'hbo']:
                 # Checkout Process for Other Sites
