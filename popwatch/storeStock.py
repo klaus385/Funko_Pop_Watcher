@@ -133,7 +133,14 @@ class storeStock(object):
         reviewBillingBtn.click()
         # Place Order Button
         if os.environ['POPENV'] == "dev":
-            self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text="Funko Bot in Test Mode. Checkout Not Proceeding")
+            self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID,
+                                          text="Funko Bot in Test Mode. Checkout Not Proceeding")
+        elif os.environ['POPENV'] == "stg":
+            self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID,
+                                          text="Will run checkout process without headless chrome option enabled")
+            placeOrderBtn = WebDriverWait(self.driver, 20).until(
+                EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]')))
+            placeOrderBtn.click()
         elif os.environ['POPENV'] == "prd":
             placeOrderBtn = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]')))
@@ -233,6 +240,8 @@ class storeStock(object):
         chrome_options = Options()
         if os.environ['POPENV'] == "dev":
             print('Not Setting Headless for Development Purposes')
+        elif os.environ['POPENV'] == "stg":
+            print("Will run checkout process without headless chrome option enabled")
         elif os.environ['POPENV'] == "prd":
             chrome_options.add_argument("--headless")
         chrome_options.add_argument("--credentials_enable_service=false")
