@@ -234,8 +234,7 @@ class storeStock(object):
         if os.environ['POPENV'] == "dev":
             print('Not Setting Headless for Development Purposes')
         elif os.environ['POPENV'] == "prd":
-            print "Temp Disable"
-            #chrome_options.add_argument("--headless")
+            chrome_options.add_argument("--headless")
         chrome_options.add_argument("--credentials_enable_service=false")
         chrome_options.add_argument("--profile.password_manager_enabled=false")
         chrome_options.add_argument("--no-sandbox")
@@ -327,6 +326,7 @@ class storeStock(object):
                     for elem in self.driver.find_elements_by_xpath('.//span[@class = "order-summary"]'):
                         orderNumber = "Checkout was SUCESSFUL!" + " Your Order Number is: " + ":\n" + elem.text
                         self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text=orderNumber)
+                    self.driver.quit
                 elif site in ['boxlunch']:
                     cartLink = "https://www.boxlunch.com/cart"
                     # Checkout Button
@@ -337,6 +337,7 @@ class storeStock(object):
                     for elem in self.driver.find_elements_by_xpath('.//span[@class = "order-summary"]'):
                         orderNumber = "Checkout was SUCESSFUL!" + " Your Order Number is: " + ":\n" + elem.text
                         self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text=orderNumber)
+                    self.driver.quit
             elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles', 'hbo']:
                 # Checkout Process for Other Sites
                 if site in ['hbo']:
