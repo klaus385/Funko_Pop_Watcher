@@ -221,7 +221,7 @@ class storeStock(object):
         quantity = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/div/div[2]/div/div[1]/div/div[1]/div/div/div/div/div[3]/div[4]/div[2]/div[1]/div/div/div/div[10]/div/div/div[1]/select/option[1]')))
         quantity.click()
-        walmartACOBtn = = WebDriverWait(self.driver, 20).until(
+        walmartACOBtn = WebDriverWait(self.driver, 20).until(
             EC.element_to_be_clickable((By.XPATH, '/ html/body/div[1]/div/div/div[2]/div/div[1]/div/div[1]/div/div/div/div/div[3]/div[4]/div[2]/div[1]/div/div/div/div[10]/div/div/div[2]/button'))
         walmartACOBtn.click()
 
@@ -241,7 +241,7 @@ class storeStock(object):
         chrome_options.add_argument('--disable-default-apps')
 
         # Rasberry Pi Support
-        if get_distro() == "Raspbian GNU/Linux":
+        if get_distro() == "Linux":
             driver = webdriver.Chrome(executable_path=config.DRIVER_LOCATION, chrome_options=chrome_options)
             driver.wait = WebDriverWait(driver, 3)
             _LOG.info('Initialized Chrome Driver.')
