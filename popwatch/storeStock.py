@@ -7,6 +7,7 @@ import requests
 import portalocker
 import platform
 import os
+import subprocess
 
 from popwatch import config
 from popwatch import popProfiles
@@ -312,7 +313,7 @@ class storeStock(object):
                 # A. This will also dictate the original message sent to channel
                 # B. This will dictate number to buy
                 # NOTE: May want to run multiple instances and buy in singles.
-                # Setup Quantity SUdo Dynamic
+                # Setup Quantity Sudo Dynamic
                 if os.environ['POPENV'] == "dev":
                     amount = "1"
                     quantitySelectorString = '//*[@id="Quantity"]/option[' + amount + ']'
@@ -337,22 +338,30 @@ class storeStock(object):
                     self.driver.get(cartLink)
                     # Function to do Checkout Process
                     self.ht_bl_checkout_process(site)
-                    # Return Order Number And Send to Bot
-                    for elem in self.driver.find_elements_by_xpath('.//span[@class = "order-summary"]'):
-                        orderNumber = "Checkout was SUCCESSFUL!" + " Your Order Number is: " + ":\n" + elem.text
-                        self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text=orderNumber)
-                    self.driver.quit
+                    # Take Screen Shot of Order
+                    self.driver.save_screenshot("order.png")
+                    self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID,
+                                                  text="Checkout was SUCCESSFUL! Order Screenshot Below")
+                    self.UPDATER.bot.send_photo(chat_id=config.TELEGRAM_CHAT_ID, photo=open('./order.png', 'rb'))
+                    # Quit After Checkout
+                    self.driver.quit()
+                    # Remove Order Image from Disk
+                    subprocess.Popen('rm -rf ./order.png', shell=True, stdout=subprocess.PIPE)
                 elif site in ['boxlunch']:
                     cartLink = "https://www.boxlunch.com/cart"
                     # Checkout Button
                     self.driver.get(cartLink)
                     # Function to do Checkout Process
                     self.ht_bl_checkout_process(site)
-                    # Return Order Number And Send to Bot
-                    for elem in self.driver.find_elements_by_xpath('.//span[@class = "order-summary"]'):
-                        orderNumber = "Checkout was SUCCESSFUL!" + " Your Order Number is: " + ":\n" + elem.text
-                        self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID, text=orderNumber)
-                    self.driver.quit
+                    # Take Screen Shot of Order
+                    self.driver.save_screenshot("order.png")
+                    self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID,
+                                                  text="Checkout was SUCCESSFUL! Order Screenshot Below")
+                    self.UPDATER.bot.send_photo(chat_id=config.TELEGRAM_CHAT_ID, photo=open('./order.png', 'rb'))
+                    # Quit After Checkout
+                    self.driver.quit()
+                    # Remove Order Image from Disk
+                    subprocess.Popen('rm -rf ./order.png', shell=True, stdout=subprocess.PIPE)
             elif site in ['walmart', 'barnesandnoble', 'gamestop', 'blizzard', 'geminicollectibles', 'hbo']:
                 # Checkout Process for Other Sites
                 if site in ['hbo']:
