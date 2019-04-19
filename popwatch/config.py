@@ -94,5 +94,5 @@ if get_distro() == "Raspbian GNU/Linux":
     DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', './chromedriver')
 elif get_distro() == "Windows":
     DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', './chromedriver.exe')
-else get_distro() == "Darwin":
+elif get_distro() == "Darwin":
     DRIVER_LOCATION = GLOBAL_CONFIG.get('DRIVER_LOCATION', '/usr/bin/chromedriver')

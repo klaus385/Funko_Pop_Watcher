@@ -217,7 +217,13 @@ class storeStock(object):
         #     EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div/div/form/div[3]/div[1]/button')))
         # hboCompleteOrderBtn.click()
 
-    # def target_checkout_process(self):
+    def walmart_checkout_process(self):
+        quantity = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/div/div[2]/div/div[1]/div/div[1]/div/div/div/div/div[3]/div[4]/div[2]/div[1]/div/div/div/div[10]/div/div/div[1]/select/option[1]')))
+        quantity.click()
+        walmartACOBtn = = WebDriverWait(self.driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, '/ html/body/div[1]/div/div/div[2]/div/div[1]/div/div[1]/div/div/div/div/div[3]/div[4]/div[2]/div[1]/div/div/div/div[10]/div/div/div[2]/button'))
+        walmartACOBtn.click()
 
     def init_driver(self):
         chrome_options = Options()
@@ -322,8 +328,10 @@ class storeStock(object):
                 # Checkout Process for Other Sites
                 if site in ['hbo']:
                     self.hbo_checkout_process()
+                elif site in ['walmart']:
+                    self.walmart_checkout_process()
                 else:
-                    print("Still Work In Progress - Site(s): Walmart, B&N, Gamestop, Blizzard, Gemini Collectibles")
+                    print("Still Work In Progress - Site(s): B&N, Gamestop, Blizzard, Gemini Collectibles")
             elif site in ['target']:
                 print("Still Work In Progress - Site(s): Target")
 
