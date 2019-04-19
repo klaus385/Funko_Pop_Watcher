@@ -328,8 +328,8 @@ class storeStock(object):
                 # Checkout Process for Other Sites
                 if site in ['hbo']:
                     self.hbo_checkout_process()
-                elif site in ['walmart']:
-                    self.walmart_checkout_process()
+                # elif site in ['walmart']:
+                #     self.walmart_checkout_process()
                 else:
                     print("Still Work In Progress - Site(s): B&N, Gamestop, Blizzard, Gemini Collectibles")
             elif site in ['target']:
