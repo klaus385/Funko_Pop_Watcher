@@ -178,19 +178,6 @@ class storeStock(object):
             placeOrderBtn.click()
 
     def hbo_checkout_process(self):
-        # # Check if Pop Overlay Exists
-        # # popup = self.driver.find_elements_by_xpath(
-                #     '//*[@id="privy-inner-container"]/div[1]/div/div/div[3]/div[5]/button')
-
-        # # Logic to Close Pop when it does exist
-        # for popupCloseBtn in popup:
-        #     popInnerText = popupCloseBtn.get_attribute('innerText')
-        #     if popInnerText:
-        #         print('Pop Found Initiating Closer of Pop Up')
-        #         # Pop Up Found and Needs to be Dismissed
-        #         popup.click()
-        #     else:
-        #         self.driver.refresh()
         # Find quantity element by name
         quantity = self.driver.find_element_by_name("quantity")
         # Reset Default Quantity Value
@@ -203,9 +190,6 @@ class storeStock(object):
         hboCheckoutBtn = WebDriverWait(self.driver, 20, .1).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="MiniCart"]/a[1]')))
         hboCheckoutBtn.click()
-        #  Enter Coupon Code
-        # couponCode = self.driver.find_element_by_id("checkout_reduction_code")
-        # couponCode.send_keys("WELCOME15")
         # Start Entering User Information
         hboEmailForm = self.driver.find_element_by_id("checkout_email")
         hboEmailForm.send_keys(profile.email)
@@ -246,18 +230,18 @@ class storeStock(object):
         hbocreditCardNum.send_keys(profile.ccNumber)
         self.driver.switch_to_default_content
         # Credit Card Owner
-        # hbocreditCardOwner = self.driver.find_element_by_id("name")
-        # hbocreditCardOwner.send_keys(profile.ccOwner)
-        # # Credit Card Expiration Date
-        # hbocreditCardExp = self.driver.find_element_by_id("expiry")
-        # hbocreditCardExp.send_keys(profile.expDate)
-        # # # Credit Card Security Code
-        # hbocreditCardCCV = self.driver.find_element_by_id("verification_value")
-        # hbocreditCardCCV.send_keys(profile.ccSecurityCode)
-        # # Complete Order Button
-        # hboCompleteOrderBtn = WebDriverWait(self.driver, 20, .1).until(
-        #     EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div/div/form/div[3]/div[1]/button')))
-        # hboCompleteOrderBtn.click()
+        hbocreditCardOwner = self.driver.find_element_by_id("name")
+        hbocreditCardOwner.send_keys(profile.ccOwner)
+        # Credit Card Expiration Date
+        hbocreditCardExp = self.driver.find_element_by_id("expiry")
+        hbocreditCardExp.send_keys(profile.expDate)
+        # Credit Card Security Code
+        hbocreditCardCCV = self.driver.find_element_by_id("verification_value")
+        hbocreditCardCCV.send_keys(profile.ccSecurityCode)
+        # Complete Order Button
+        hboCompleteOrderBtn = WebDriverWait(self.driver, 20, .1).until(
+            EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div/div/form/div[3]/div[1]/button')))
+        hboCompleteOrderBtn.click()
 
     # def walmart_checkout_process(self):
     #     quantity = WebDriverWait(self.driver, 20, .1).until(
