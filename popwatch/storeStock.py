@@ -76,11 +76,11 @@ class storeStock(object):
 
     def ht_bl_checkout_process(self, site):
         # Checkout Button then as unregistrated user
-        checkoutBtn = WebDriverWait(self.driver, 20).until(
+        checkoutBtn = WebDriverWait(self.driver, 20, .1).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="checkout-form"]/fieldset/div/button')))
         checkoutBtn.click()
         # Start as an Unregistered User
-        checkoutBtnAsGuest = WebDriverWait(self.driver, 20).until(
+        checkoutBtnAsGuest = WebDriverWait(self.driver, 20, .1).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="primary"]/div[2]/div[1]/form/fieldset/div/button/span')))
         checkoutBtnAsGuest.click()
         # Fill Out Form for Guest Checkout
@@ -91,7 +91,7 @@ class storeStock(object):
         first_name_form.send_keys(profile.f_name)
         last_name_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_lastName")
         last_name_form.send_keys(profile.l_name)
-        country_selection =  WebDriverWait(self.driver, 20).until(
+        country_selection =  WebDriverWait(self.driver, 20, .1).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_country"]/option[2]')))
         country_selection.click()
         zip_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_postal")
@@ -102,13 +102,13 @@ class storeStock(object):
         ad_two_form.send_keys(profile.ad_two)
         city_form = self.driver.find_element_by_id("dwfrm_singleshipping_shippingAddress_addressFields_city")
         city_form.send_keys(profile.city)
-        state_selection =  WebDriverWait(self.driver, 20).until(
+        state_selection =  WebDriverWait(self.driver, 20, .1).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress_addressFields_states_state"]/option[5]')))
         state_selection.click()
         phone_form = self.driver.find_element_by_id("formatted-phone")
         phone_form.send_keys(profile.phone)
         # Continue to Billing Button
-        continueBillingBtn = WebDriverWait(self.driver, 20).until(
+        continueBillingBtn = WebDriverWait(self.driver, 20, .1).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_singleshipping_shippingAddress"]/div[2]/fieldset/div/button')))
         continueBillingBtn.click()
         # Enter Credit Card Information
@@ -125,7 +125,7 @@ class storeStock(object):
         creditCardCCV = self.driver.find_element_by_id("dwfrm_billing_paymentMethods_creditCard_cvn")
         creditCardCCV.send_keys(profile.ccSecurityCode)
         # Billing Review Button
-        reviewBillingBtn = WebDriverWait(self.driver, 20).until(
+        reviewBillingBtn = WebDriverWait(self.driver, 20, .1).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="dwfrm_billing"]/div[3]/button')))
         reviewBillingBtn.click()
         # Place Order Button
@@ -135,11 +135,11 @@ class storeStock(object):
         elif os.environ['POPENV'] == "stg":
             self.UPDATER.bot.send_message(chat_id=config.TELEGRAM_CHAT_ID,
                                           text="Running Checkout Process Without Headless")
-            placeOrderBtn = WebDriverWait(self.driver, 20).until(
+            placeOrderBtn = WebDriverWait(self.driver, 20, .1).until(
                 EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]')))
             placeOrderBtn.click()
         elif os.environ['POPENV'] == "prd":
-            placeOrderBtn = WebDriverWait(self.driver, 20).until(
+            placeOrderBtn = WebDriverWait(self.driver, 20, .1).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="summarySubmit"]')))
             placeOrderBtn.click()
 
@@ -166,7 +166,7 @@ class storeStock(object):
         # Using Javascript to Add Item to Cart
         self.driver.execute_script("document.getElementById('AddToCart-product-template').click()")
         # Checkout Button
-        hboCheckoutBtn = WebDriverWait(self.driver, 20).until(
+        hboCheckoutBtn = WebDriverWait(self.driver, 20, .1).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="MiniCart"]/a[1]')))
         hboCheckoutBtn.click()
         #  Enter Coupon Code
@@ -185,10 +185,10 @@ class storeStock(object):
         hboADTwo.send_keys(profile.ad_two)
         hboCity = self.driver.find_element_by_id("checkout_shipping_address_city")
         hboCity.send_keys(profile.city)
-        hboCountrySelection = WebDriverWait(self.driver, 20).until(
+        hboCountrySelection = WebDriverWait(self.driver, 20, .1).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="checkout_shipping_address_country"]/option[1]')))
         hboCountrySelection.click()
-        hboStateSelection = WebDriverWait(self.driver, 20).until(
+        hboStateSelection = WebDriverWait(self.driver, 20, .1).until(
             EC.element_to_be_clickable((By.XPATH, '//*[@id="checkout_shipping_address_province"]/option[5]')))
         hboStateSelection.click()
         hboZipCode = self.driver.find_element_by_id("checkout_shipping_address_zip")
@@ -196,11 +196,11 @@ class storeStock(object):
         hboPhone = self.driver.find_element_by_id("checkout_shipping_address_phone")
         hboPhone.send_keys(profile.phone)
         # Go to Shipping Method Page
-        hboShippingMethodBtn = WebDriverWait(self.driver, 20).until(
+        hboShippingMethodBtn = WebDriverWait(self.driver, 20, .1).until(
             EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div/form/div[2]/button')))
         hboShippingMethodBtn.click()
         # Go to Payment Method Page
-        hboPaymentMethodBtn = WebDriverWait(self.driver, 20).until(
+        hboPaymentMethodBtn = WebDriverWait(self.driver, 20, .1).until(
             EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div/form/div[2]/button')))
         hboPaymentMethodBtn.click()
         # Credit Card Information Form Fill Out
@@ -221,15 +221,15 @@ class storeStock(object):
         # hbocreditCardCCV = self.driver.find_element_by_id("verification_value")
         # hbocreditCardCCV.send_keys(profile.ccSecurityCode)
         # # Complete Order Button
-        # hboCompleteOrderBtn = WebDriverWait(self.driver, 20).until(
+        # hboCompleteOrderBtn = WebDriverWait(self.driver, 20, .1).until(
         #     EC.element_to_be_clickable((By.XPATH, '/html/body/div[2]/div/div[1]/div[2]/div/div/form/div[3]/div[1]/button')))
         # hboCompleteOrderBtn.click()
 
     # def walmart_checkout_process(self):
-    #     quantity = WebDriverWait(self.driver, 20).until(
+    #     quantity = WebDriverWait(self.driver, 20, .1).until(
     #         EC.element_to_be_clickable((By.XPATH, '/html/body/div[1]/div/div/div[2]/div/div[1]/div/div[1]/div/div/div/div/div[3]/div[4]/div[2]/div[1]/div/div/div/div[10]/div/div/div[1]/select/option[1]')))
     #     quantity.click()
-    #     walmartACOBtn = WebDriverWait(self.driver, 20).until(
+    #     walmartACOBtn = WebDriverWait(self.driver, 20, .1).until(
     #         EC.element_to_be_clickable((By.XPATH, '/ html/body/div[1]/div/div/div[2]/div/div[1]/div/div[1]/div/div/div/div/div[3]/div[4]/div[2]/div[1]/div/div/div/div[10]/div/div/div[2]/button'))
     #     walmartACOBtn.click()
 
@@ -324,11 +324,11 @@ class storeStock(object):
                     amount = "5"
                     quantitySelectorString = '//*[@id="Quantity"]/option[' + amount + ']'
                 # Select Quantity
-                quantity = WebDriverWait(self.driver, 20).until(
+                quantity = WebDriverWait(self.driver, 20, .1).until(
                     EC.element_to_be_clickable((By.XPATH, quantitySelectorString)))
                 quantity.click()
                 # Add to Cart Button
-                atcBtn = WebDriverWait(self.driver, 20).until(
+                atcBtn = WebDriverWait(self.driver, 20, .1).until(
                     EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]')))
                 atcBtn.click()
                 #  Logic to Decide Sites Cart Link
