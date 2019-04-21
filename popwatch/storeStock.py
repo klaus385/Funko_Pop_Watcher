@@ -467,13 +467,13 @@ class storeStock(object):
         try:
             if site == 'blizzard':
                 addToCart = self.driver.wait.until(
-        EC.presence_of_element_located((By.ID, HTML_OBJ[site])))
+                    EC.presence_of_element_located((By.ID, HTML_OBJ[site])))
             elif site == 'hbo':
                 addToCart = self.driver.wait.until(
-        EC.presence_of_element_located((By.ID, HTML_OBJ[site])))
+                    EC.presence_of_element_located((By.ID, HTML_OBJ[site])))
             else:
                 addToCart = self.driver.wait.until(
-        EC.presence_of_element_located((By.CLASS_NAME, HTML_OBJ[site])))
+                    EC.presence_of_element_located((By.CLASS_NAME, HTML_OBJ[site])))
         except TimeoutException:
             _LOG.warning('Failed to locate element for "Add to Cart".')
             return False
