@@ -109,6 +109,14 @@ class storeStock(object):
         atcBtn = WebDriverWait(self.driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, '//button[contains(string(), "Add to Bag")]')))
         atcBtn.click()
+        if site in ['hottopic']:
+            cartLink = "https://www.hottopic.com/cart"
+            # Checkout Button
+            self.driver.get(cartLink)
+        elif site in ['boxlunch']:
+            cartLink = "https://www.boxlunch.com/cart"
+            # Checkout Button
+            self.driver.get(cartLink)
         # Checkout Button then as unregistrated user
         checkoutBtn = WebDriverWait(self.driver, 10).until(
         EC.element_to_be_clickable((By.XPATH, '//*[@id="checkout-form"]/fieldset/div/button')))
@@ -314,9 +322,8 @@ class storeStock(object):
             if site in ['hottopic', 'boxlunch']:
                 #  Logic to Decide Sites Cart Link
                 if site in ['hottopic']:
-                    cartLink = "https://www.hottopic.com/cart"
-                    # Checkout Button
-                    self.driver.get(cartLink)
+                    # Adds Item to the Cart
+                    self.driver.get(url)
                     # Function to do Checkout Process
                     self.ht_bl_checkout_process(site)
                     # Check if Pop Overlay Exists Again
@@ -340,9 +347,8 @@ class storeStock(object):
                     # Remove Order Image from Disk
                     subprocess.Popen('rm -rf ./order.png', shell=True, stdout=subprocess.PIPE)
                 elif site in ['boxlunch']:
-                    cartLink = "https://www.boxlunch.com/cart"
-                    # Checkout Button
-                    self.driver.get(cartLink)
+                    # Adds Item to the Cart
+                    self.driver.get(url)
                     # Function to do Checkout Process
                     self.ht_bl_checkout_process(site)
                     # Check if Pop Overlay Exists Again
@@ -380,10 +386,16 @@ class storeStock(object):
                     print("Still Work In Progress - Site(s): B&N, Gamestop, Blizzard, Gemini Collectibles")
             elif site in ['target']:
                 print("Still Work In Progress - Site(s): Target")
+        else:
+            url_md5 = hashlib.md5(url.encode('utf-8')).hexdigest()
+            self.TIMEOUT[url_md5] = datetime.now().timedelta(0,15)
+            _LOG.info('Timeout Set: {0}'.format(url_md5))
 
 
     def set_cookies(self):
+        _LOG.info('Setting Hot Topic Cookies')
         self.driver.get('https://www.hottopic.com')
+        _LOG.info('Setting Boxlunch Cookies')
         self.driver.get('https://www.boxlunch.com')
 
     def pop_search(self, sleep_interval=2):
