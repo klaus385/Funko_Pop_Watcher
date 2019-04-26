@@ -386,16 +386,19 @@ class storeStock(object):
                     print("Still Work In Progress - Site(s): B&N, Gamestop, Blizzard, Gemini Collectibles")
             elif site in ['target']:
                 print("Still Work In Progress - Site(s): Target")
-        else:
-            url_md5 = hashlib.md5(url.encode('utf-8')).hexdigest()
-            self.TIMEOUT[url_md5] = datetime.now().timedelta(0,15)
-            _LOG.info('Timeout Set: {0}'.format(url_md5))
+        # else:
+        #     # Adds functionality that when not in stock
+        #     # We set timeout for 15 seconds then proceed to check
+        #     # The next item from pops.json
+        #     url_md5 = hashlib.md5(url.encode('utf-8')).hexdigest()
+        #     currentTime = datetime.now()
+        #     self.TIMEOUT[url_md5] = (currentTime + timedelta(0, 15)).time()
+        #     _LOG.info('Timeout Set: {0}'.format(url_md5))
 
 
     def set_cookies(self):
-        _LOG.info('Setting Hot Topic Cookies')
+        _LOG.info('Setting Hot Topic & Boxlunch Cookies')
         self.driver.get('https://www.hottopic.com')
-        _LOG.info('Setting Boxlunch Cookies')
         self.driver.get('https://www.boxlunch.com')
 
     def pop_search(self, sleep_interval=2):
